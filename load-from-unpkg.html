@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://unpkg.com/jspsych"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response"></script>
+  <script src="https://unpkg.com/@jspsych-timelines/n-back"></script>
+  <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
+</head>
+
+<body></body>
+<script>
+  const jsPsych = initJsPsych();
+
+      const stimuli = ['A', 'B', 'C', 'D'];
+      const n = 2;
+      const num_trials = 10;
+      const rep_ratio = 0.5;
+
+      const trial_sequence = createNbackStim(jsPsych, n, stimuli, num_trials, rep_ratio);
+
+      const timeline = createTimeline(
+        trial_sequence,
+        'N', // Keyboard response key
+        1000, // Trial duration in ms
+        500,  // Post-trial gap in ms
+        200,  // Fixation duration in ms
+        n
+      );
+
+      // Run the experiment
+      jsPsych.run(timeline);
+</script>
+
+</html>
