@@ -12,24 +12,30 @@
 <script>
   const jsPsych = initJsPsych();
 
-      const stimuli = ['A', 'B', 'C', 'D'];
-      const n = 2;
-      const num_trials = 10;
-      const rep_ratio = 0.5;
+  const stimuli = ["B", "D", "G", "P", "T", "V"];
 
-      const trial_sequence = createNbackStim(jsPsych, n, stimuli, num_trials, rep_ratio);
+  const timeline1Back = createTimeline(jsPsych, stimuli, "space", 1000, 500, 500, 1, 12, 0.25);
+  const timeline2Back = createTimeline(jsPsych, stimuli, "space", 1000, 500, 500, 2, 12, 0.25);
+  const timeline3Back = createTimeline(jsPsych, stimuli, "space", 1000, 500, 500, 3, 12, 0.25);
 
-      const timeline = createTimeline(
-        trial_sequence,
-        'N', // Keyboard response key
-        1000, // Trial duration in ms
-        500,  // Post-trial gap in ms
-        200,  // Fixation duration in ms
-        n
-      );
+  const instructions = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+      <p>Welcome to the N-back task.</p>
+      <p>You will see a sequence of letters on the screen.</p>
+      <p>Press "space" if the current letter matches the one seen "n" steps before.</p>
+      <p>Press any key to begin.</p>
+    `
+  };
 
-      // Run the experiment
-      jsPsych.run(timeline);
+  jsPsych.addNodeToEndOfTimeline([instructions]);
+
+  const finalTimeline = jsPsych.randomization.sampleWithoutReplacement(
+    [timeline1Back, timeline2Back, timeline3Back], 
+    3
+  );
+
+  jsPsych.run(finalTimeline);
 </script>
 
 </html>
