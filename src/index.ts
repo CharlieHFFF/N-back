@@ -1,7 +1,17 @@
 import { JsPsych } from "jspsych";
 import jsPsychHtmlKeyboardResponse from '@jspsych/plugin-html-keyboard-response'
 
-export function createNbackStim(jsPsych: JsPsych, n: number, stimuli: any, num_trials: number, rep_ratio: number) {
+export function createTimeline(jsPsych: JsPsych,
+  stimuli: any,
+  keyboard_response: string = "space",          // Default key for response
+  trial_duration: number = 1000,                // Default trial duration in ms
+  post_trial_gap: number = 500,                 // Default gap between trials in ms
+  fixation_duration: number = 500,              // Default fixation duration in ms
+  n: number = 2,                                // Default value for N-back level
+  num_trials: number = 20,                      // Default number of trials
+  rep_ratio: number = 0.2){
+
+  function createNbackStim(jsPsych: JsPsych, n: number, stimuli: any, num_trials: number, rep_ratio: number) {
     const trial_sequence: any[] = [];
 
     for (var i = 0; i < num_trials; i++) {
@@ -19,9 +29,10 @@ export function createNbackStim(jsPsych: JsPsych, n: number, stimuli: any, num_t
     return trial_sequence
   }
 
-export function createTimeline(trial_sequence: any, keyboard_response: string, trial_duration: number, post_trial_gap: number, fixation_duration: number, n: number){
+  const trial_sequence = createNbackStim(jsPsych, n, stimuli, num_trials, rep_ratio)
 
-    const timeline: any[] = [];
+
+  const timeline: any[] = [];
 
 
     for (var i = 0; i < trial_sequence.length; i++) {
